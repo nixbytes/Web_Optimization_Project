@@ -81,10 +81,30 @@ void capitalize(char* str) {
     }
 }
 
+// ... (previous code)
+
 // --- Logic Functions ---
 
 EMSCRIPTEN_KEEPALIVE
+float get_pizza_size_ratio(int size) {
+    switch(size) {
+        case 1: return 0.25f;
+        case 2: return 0.3333f;
+        case 3: return 0.5f;
+        default: return 0.3333f;
+    }
+}
+
+EMSCRIPTEN_KEEPALIVE
+float calculate_dx(float old_width, float window_width, int size) {
+    float old_size = old_width / window_width;
+    float new_size = get_pizza_size_ratio(size);
+    return (new_size - old_size) * window_width;
+}
+
+EMSCRIPTEN_KEEPALIVE
 const char* get_random_pizza_name() {
+// ... (rest of the code)
     static char name_buffer[128];
     
     const char** adj_lists[] = {adj_dark, adj_color, adj_whimsical, adj_shiny, adj_noisy, adj_apocalyptic, adj_insulting, adj_praise, adj_scientific};

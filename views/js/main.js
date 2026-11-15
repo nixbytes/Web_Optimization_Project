@@ -1,7 +1,7 @@
 var PIZZA_IMAGE_URL = "https://cdn-icons-png.flaticon.com/512/3595/3595455.png";
 
 // WASM Functions
-var wasm_get_name, wasm_get_ingredients, wasm_parallax;
+var wasm_get_name, wasm_get_ingredients, wasm_parallax, wasm_size_ratio, wasm_calc_dx;
 
 // Initialize WASM
 if (typeof Module !== 'undefined') {
@@ -9,6 +9,8 @@ if (typeof Module !== 'undefined') {
         wasm_get_name = Module.cwrap('get_random_pizza_name', 'string', []);
         wasm_get_ingredients = Module.cwrap('get_random_pizza_ingredients', null, ['number']);
         wasm_parallax = Module.cwrap('calculate_parallax', 'number', ['number', 'number']);
+        wasm_size_ratio = Module.cwrap('get_pizza_size_ratio', 'number', ['number']);
+        wasm_calc_dx = Module.cwrap('calculate_dx', 'number', ['number', 'number', 'number']);
         
         // Initial generation now that WASM is ready
         for (var i = 2; i < 100; i++) {
@@ -101,32 +103,18 @@ var resizePizzas = function(size) {
 
     changeSliderLabel(size);
 
-    function determineDx (elem, size) {
-        var oldWidth = elem.offsetWidth;
-        var windowWidth = document.getElementById('randomPizzas').offsetWidth;
-        var oldSize = oldWidth / windowWidth;
-
-        function sizeSwitcher (size) {
-            switch(size) {
-                case "1": return 0.25;
-                case "2": return 0.3333;
-                case "3": return 0.5;
-                default: console.log("bug in sizeSwitcher");
-            }
-        }
-
-        var newSize = sizeSwitcher(size);
-        var dx = (newSize - oldSize) * windowWidth;
-        return dx;
-    }
-
     var pizza_containers = document.getElementsByClassName('randomPizzaContainer');
-    var pizza_containers_length = pizza_containers.length;
-    var dx = determineDx(pizza_containers[0], size);
-    var newwidth = (pizza_containers[0].offsetWidth + dx) + 'px';
+    if (pizza_containers.length === 0) return;
+
+    var windowWidth = document.getElementById('randomPizzas').offsetWidth;
+    var oldWidth = pizza_containers[0].offsetWidth;
+    
+    // Use WASM for the calculation
+    var dx = wasm_calc_dx ? wasm_calc_dx(oldWidth, windowWidth, parseInt(size)) : 0;
+    var newwidth = (oldWidth + dx) + 'px';
 
     function changePizzaSizes(size) {
-        for (var i = 0; i < pizza_containers_length; i++) {
+        for (var i = 0; i < pizza_containers.length; i++) {
             pizza_containers[i].style.width = newwidth;
         }
     }

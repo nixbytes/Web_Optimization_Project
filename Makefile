@@ -1,7 +1,7 @@
 CC = gcc
 EMCC = emcc
 CFLAGS = -Wall -Wextra -O2
-EMCCFLAGS = -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS=['cwrap'] -s EXPORTED_FUNCTIONS=['_get_random_pizza_name', '_get_random_pizza_ingredients', '_calculate_parallax', '_malloc', '_free']
+EMCCFLAGS = -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS=['cwrap'] -s EXPORTED_FUNCTIONS=['_get_random_pizza_name', '_get_random_pizza_ingredients', '_calculate_parallax', '_get_pizza_size_ratio', '_calculate_dx', '_malloc', '_free']
 
 SRC = src/pizza.c
 SERVER_SRC = src/server.c
