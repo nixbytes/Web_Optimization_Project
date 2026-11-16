@@ -1,97 +1,66 @@
-## Website Performance Optimization portfolio project
+# 🍕 Cam's Pizzeria: High-Performance Web Edition
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
+A demonstration of extreme web optimization by offloading core business logic and mathematical computations from JavaScript to **C via WebAssembly (WASM)**.
 
-To get started, check out the repository and inspect the code.
+## 🚀 The Architecture
 
-### Getting started
+This project transforms a standard interactive website into a high-performance application by moving the "heavy lifting" to a compiled language.
 
-####Part 1: Optimize PageSpeed Insights score for index.html
+### 🧠 C $\rightarrow$ WASM Logic Layer
+Instead of relying on the JavaScript engine for random generation and animations, we use a compiled C module:
+- **Randomization**: Pizza name and ingredient generation is handled in C using static arrays and `rand()`.
+- **Layout Math**: Width calculations for the dynamic pizza grid are performed in C to ensure consistency and speed.
+- **Parallax Engine**: The background "floating" pizzas use C's `math.h` (`sinf`) to calculate positions, reducing JS main-thread jank.
 
-Some useful tips to help you get started:
+### 🌐 Custom C Web Server
+To avoid the overhead of heavy server frameworks and ensure the correct delivery of WASM binaries, the project includes a **bespoke HTTP server written in C**.
+- **MIME Type Handling**: Correctly serves `.wasm` files as `application/wasm` to prevent browser security blocks.
+- **Low Overhead**: A lightweight socket-based implementation for local development.
 
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
+## 🛠️ Tech Stack
+- **Frontend**: HTML5, CSS3, JavaScript (Glue Layer)
+- **Core**: C99 (Compiled to WASM via Emscripten)
+- **Build System**: GNU Make
+- **Server**: C (POSIX Sockets)
 
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
+## 📦 Getting Started
 
-1. Open a browser and visit localhost:8080
-1. Download and install [ngrok](https://ngrok.com/) to the top-level of your project directory to make your local server accessible remotely.
+### Prerequisites
+- [Emscripten SDK (emsdk)](https://emscripten.org/docs/getting_started/downloads.html)
+- GCC / Clang
+- A POSIX-compliant environment (Linux/macOS)
 
-  ``` bash
-  $> cd /path/to/your-project-folder
-  $> ./ngrok http 8080
-  ```
+### Installation & Build
+1. **Clone the repository** and enter the directory.
+2. **Compile everything** (WASM logic and C Server):
+   ```bash
+   make all
+   ```
+3. **Run Native Tests**:
+   Verify the C logic independently of the browser:
+   ```bash
+   make test
+   ```
 
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
+### Running the Project
+Start the C-based web server:
+```bash
+make run-server
+```
+Visit the site at: **`http://localhost:8000/views/pizza.html`**
 
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+## 📈 Optimization Highlights
+| Feature | Old JS Implementation | New C/WASM Implementation |
+| :--- | :--- | :--- |
+| **Randomization** | JS Array access + `Math.random()` | Static C Arrays + `rand()` |
+| **Parallax** | `Math.sin()` in JS loop | `sinf()` in WASM |
+| **Resize Logic** | JS conditional logic | C-based ratio calculation |
+| **Server** | Python/Node.js | Native C Sockets |
+| **Assets** | Local heavy images | Optimized CDN Assets |
 
-####Part 2: Optimize Frames per Second in pizza.html
-
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js.
-
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
-
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
-
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
-
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
-
-
-# Website Performance Optimization Project
-
-The objective to optimize a provided website with a number of optimization- and performance-related issues so that it achieves a target PageSpeed score and runs at 60 frames per second.
-
-# Goal
-
-A README file is included detailing all steps required to successfully run the application and outlines the optimizations that the student made in index.html and views/js/main.js for pizza.html
-
-
-- optimize images by create new version with optimizilla.Image compression: images were rescaled and resized to the final layout dimensions
-  -  source can be found at [optimizilla](http://optimizilla.com/)
-  - create a min image for pizzera(a thumbnail)
-
-
-- minified css and js with a command line tool called minifier
-  - source of [minifier](https://www.npmjs.com/package/minifier)
-
-
-- check the FPS using Google Dev Tools
-- optimize js in section scroll
-  - using reference from  https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
-
-#### screenshots
-
-#### Index Page
-
-![index](img/index-page-FPS.png)
-
-#### Pizzera
-
-![Pizzera](img/Pizzera-FPS.png)
-
-
-### Validate Score from Google Page Speed tool
-
-#### DeskTop Score
-![Desktop](img/DeskTop-Score-90+.png)
-
-##### Mobile Score
-![Mobile](img/mobile-score-90+.png)
+## 📂 Project Structure
+- `src/pizza.c`: The "Brain" of the app (Logic & Math).
+- `src/server.c`: The "Heart" of the app (Custom Web Server).
+- `Makefile`: The build orchestrator.
+- `views/js/main.js`: The "Glue" (DOM interaction $\leftrightarrow$ WASM).
+- `views/pizza.html`: The "Face" (User Interface).
