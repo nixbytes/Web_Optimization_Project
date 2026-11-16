@@ -9,7 +9,7 @@ OBJ = src/pizza.o
 WASM_OUT = views/js/pizza.js
 SERVER_OUT = server_native
 
-all: wasm native server
+all: wasm server
 
 wasm:
 	$(EMCC) $(EMCCFLAGS) $(SRC) -o $(WASM_OUT)
