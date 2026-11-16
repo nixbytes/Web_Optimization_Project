@@ -1,55 +1,66 @@
-# Web Optimization Project (C/WASM Edition)
+# 🍕 Cam's Pizzeria: High-Performance Web Edition
 
-This project is a performance-optimized version of a pizzeria website. The core logic for pizza generation and parallax effects has been converted from JavaScript to **C** and compiled to **WebAssembly (WASM)** for improved execution speed and as a demonstration of high-performance web capabilities.
+A demonstration of extreme web optimization by offloading core business logic and mathematical computations from JavaScript to **C via WebAssembly (WASM)**.
 
-## 🚀 Features
-- **C-Powered Logic**: Random pizza name generation and ingredient selection are handled in C.
-- **WASM Parallax**: Background animations are calculated using C's `math.h` and executed via WASM.
-- **Optimized Assets**: Images are replaced with high-quality, free online versions to reduce local bloat and improve theme consistency.
-- **Fast Rendering**: Designed for 60 FPS smooth scrolling.
+## 🚀 The Architecture
+
+This project transforms a standard interactive website into a high-performance application by moving the "heavy lifting" to a compiled language.
+
+### 🧠 C $\rightarrow$ WASM Logic Layer
+Instead of relying on the JavaScript engine for random generation and animations, we use a compiled C module:
+- **Randomization**: Pizza name and ingredient generation is handled in C using static arrays and `rand()`.
+- **Layout Math**: Width calculations for the dynamic pizza grid are performed in C to ensure consistency and speed.
+- **Parallax Engine**: The background "floating" pizzas use C's `math.h` (`sinf`) to calculate positions, reducing JS main-thread jank.
+
+### 🌐 Custom C Web Server
+To avoid the overhead of heavy server frameworks and ensure the correct delivery of WASM binaries, the project includes a **bespoke HTTP server written in C**.
+- **MIME Type Handling**: Correctly serves `.wasm` files as `application/wasm` to prevent browser security blocks.
+- **Low Overhead**: A lightweight socket-based implementation for local development.
 
 ## 🛠️ Tech Stack
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Backend Logic**: C (compiled to WASM via Emscripten)
-- **Build System**: Makefile
-- **Server**: Python (SimpleHTTPServer)
+- **Frontend**: HTML5, CSS3, JavaScript (Glue Layer)
+- **Core**: C99 (Compiled to WASM via Emscripten)
+- **Build System**: GNU Make
+- **Server**: C (POSIX Sockets)
 
 ## 📦 Getting Started
 
 ### Prerequisites
-- [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) (for compiling C to WASM)
-- Python 3.x (for the local server)
-- GCC (for native C testing)
+- [Emscripten SDK (emsdk)](https://emscripten.org/docs/getting_started/downloads.html)
+- GCC / Clang
+- A POSIX-compliant environment (Linux/macOS)
 
 ### Installation & Build
-1. Clone the repository.
-2. Compile the C code to WASM using the provided Makefile:
+1. **Clone the repository** and enter the directory.
+2. **Compile everything** (WASM logic and C Server):
    ```bash
-   make wasm
+   make all
    ```
-   This will generate `views/js/pizza.js` and `views/js/pizza.wasm`.
-
-3. (Optional) Compile and run native C tests:
+3. **Run Native Tests**:
+   Verify the C logic independently of the browser:
    ```bash
    make test
    ```
 
 ### Running the Project
-Build and start the C-based web server:
+Start the C-based web server:
 ```bash
 make run-server
 ```
-Open your browser and visit `http://localhost:8000/views/pizza.html`.
+Visit the site at: **`http://localhost:8000/views/pizza.html`**
 
-## 📈 Optimizations Made
-- **Computational Offloading**: Moved random string manipulation and trigonometric calculations from the JS main thread to WASM.
-- **Reduced Memory Overhead**: Replaced large JS arrays with static C string arrays.
-- **Asset Optimization**: Integrated CDN-based images to replace local heavy assets.
-- **Jank-Free Scrolling**: Optimized the `requestAnimationFrame` loop by utilizing C for position calculations.
+## 📈 Optimization Highlights
+| Feature | Old JS Implementation | New C/WASM Implementation |
+| :--- | :--- | :--- |
+| **Randomization** | JS Array access + `Math.random()` | Static C Arrays + `rand()` |
+| **Parallax** | `Math.sin()` in JS loop | `sinf()` in WASM |
+| **Resize Logic** | JS conditional logic | C-based ratio calculation |
+| **Server** | Python/Node.js | Native C Sockets |
+| **Assets** | Local heavy images | Optimized CDN Assets |
 
 ## 📂 Project Structure
-- `src/pizza.c`: The core C logic for the pizza generator.
-- `Makefile`: Build instructions for both WASM and native targets.
-- `server.py`: A simple Python server to host the project.
-- `views/js/main.js`: The JS glue code that interacts with the WASM module.
-- `views/pizza.html`: The main pizzeria page.
+- `src/pizza.c`: The "Brain" of the app (Logic & Math).
+- `src/server.c`: The "Heart" of the app (Custom Web Server).
+- `Makefile`: The build orchestrator.
+- `views/js/main.js`: The "Glue" (DOM interaction $\leftrightarrow$ WASM).
+- `views/pizza.html`: The "Face" (User Interface).
