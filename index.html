@@ -1,57 +1,480 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Porfolio">
-    <meta name="author" content="Cameron Pittman">
-    <title>Cameron Pittman: Portfolio</title>
-    <link href="css/print.min.css" rel="stylesheet" media="print" />
-    <script async src="js/perfmatters.min.js"></script>
-    <script>
-      var cb=function(){var e=document.createElement("link");e.rel="stylesheet";e.href="css/style.min.css";var t=document.getElementsByTagName("head")[0];t.parentNode.insertBefore(e,t)};var raf=requestAnimationFrame||mozRequestAnimationFrame||webkitRequestAnimationFrame||msRequestAnimationFrame;if(raf)raf(cb);else window.addEventListener("load",cb)
-    </script>
-  </head>
-  <body>
-    <header>
-      <a href="/"><img src="img/profilepic.jpg"></a>
-      <p>Cameron Pittman<br><span>Course Developer</span></p>
-    </header>
-    <div class="container">
-      <div class="hero">
-        <strong>I love web development!</strong> This is a template for a simple portfolio. I decided to use it to showcase a few Udacity courses I've taken and some teaching work, but you can use it to showcase any kind of project that you want the world to see :) <br> Contact me: me@email.com
-      </div>
-      <div class="content">
-        <ul>
-          <li>
-            <img src="https://lh4.ggpht.com/kJEnfqhPvtm4m3EneSZ4fWYGS8lW4YNhEjk6zPkyrQaBUHc-2Y_ElDic99NHI0h-UBLXVbRCjFybFvrWxdk=s100">
-            <a href="project-2048.html">Build Your Own 2048!</a>
-            <p>I made my own version of 2048. How cool is that!?</p>
-          </li>
-          <li>
-            <img src="https://lh6.ggpht.com/f_0W8h__3G99CWTjnMjD8BUKm7yp2-wJyApLtTwFoFtlal2ULf_JgHIsOQq2NiYfKOdMlXlMHDKNo5XVZLs=s100">
-            <a href="project-webperf.html">Website Performance Optimization</a>
-            <p>Hey... this class looks familiar.</p>
-          </li>
-          <li>
-            <img src="https://lh5.ggpht.com/IKdCmTWn8a2nMhlwMYzryvzRN5CUZAOBr4tDrEAbszV7TIFe9pRAInA4kkYcgTXwrifJsBEsq1agTueuu-g=s100">
-            <a href="project-mobile.html">Mobile Web Development</a>
-            <p>Making mobile apps isn't so hard after all.</p>
-          </li>
-          <li>
-            <img style="width: 100px;" src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png">
-            <a href="views/pizza.html">Cam's Pizzeria</a>
-            <p>Who wants a performant pizza?</p>
-          </li>
-        </ul>
-      </div>
-      <footer>
-        <p>&copy; Web Performance 2017 <span id="crp-stats"></span></p>
-      </footer>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cameron Pittman's Portfolio - Course Developer specializing in web technologies and performance optimization">
+  <meta name="author" content="Cameron Pittman">
+  <title>Cameron Pittman — Course Developer & Performance Expert</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Styles -->
+  <style>
+    /* Custom Properties */
+    :root {
+      [data-theme='light'] {
+        --bg-primary: rgba(255, 255, 255, 0.98);
+        --bg-secondary: #f3f4f6;
+        --text-primary: #0f172a;
+        --text-secondary: #374151;
+        --text-tertiary: rgba(55, 65, 81, 0.6);
+        --accent-primary: #3b82f6;
+        --accent-secondary: #7c3aed;
+        --accent-success: #10b981;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --border-light: rgba(229, 231, 235, 0.6);
+      }
+
+      [data-theme='dark'] {
+        --bg-primary: rgba(15, 23, 42, 0.97);
+        --bg-secondary: #1e293b;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-tertiary: rgba(247, 250, 252, 0.6);
+        --accent-primary: #818cf8;
+        --accent-secondary: #c084fc;
+        --accent-success: #34d399;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+        --border-light: rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    /* Reset & Base */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; line-height: 1.6; }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, -webkit-font-smoothing: antialiased;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
+    
+    a { color: inherit; text-decoration: none; position: relative; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    
+    a:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; border-radius: 4px; }
+
+    /* Utility */
+    .container { 
+      margin: 0 auto; 
+      padding: 0 calc(1rem + env(safe-area-inset-left)); 
+      max-width: 1400px;
+    }
+
+    .text-center { text-align: center; }
+    
+    .d-flex { display: flex; }
+    
+    .justify-center { justify-content: center; }
+    
+    .gap-2 { gap: calc(0.5rem + env(safe-area-inset-left)); }
+
+    /* Navbar */
+    .navbar-custom {
+      background: color-mix(in srgb, var(--bg-primary), transparent 4%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      [theme='dark'] & { backdrop-filter: blur(20px); }
+      border-bottom: 1px solid var(--border-light);
+      padding: calc(0.75rem + env(safe-area-inset-top)) 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-custom .nav-link, .navbar-custom a {
+      opacity: var(--opacity);
+    }
+
+    .navbar-brand {
+      font-size: clamp(2rem, 4vw, 2.25rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .navbar-nav ul {
+      list-style: none;
+      display: flex;
+      gap: clamp(0.5rem, 2vw, 1rem);
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0;
+      font-size: 0.9375rem;
+    }
+
+    /* Profile Pic */
+    .profile-pic-container { border-radius: var(--radius-btn); }
+
+    /* Hero Section */
+    hero-section { padding: calc(4rem - env(safe-area-inset-top)) 0; text-align: center; }
+    
+    section.hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      margin-bottom: calc(1rem + env(safe-area-inset-top));
+      line-height: 1.15;
+    }
+
+    section.hero p {
+      max-width: 720px;
+      margin: 0 auto 1.5rem;
+      opacity: 0.8;
+      font-size: clamp(1rem, 1.25vw, 1.125rem);
+      line-height: 1.6;
+    }
+
+    /* Profile Card */
+    .profile-card-container { display: flex; justify-content: center; margin: calc(3rem - env(safe-area-inset-top)) auto; max-width: 400px; }
+    
+    section.hero .profile-pic { width: clamp(6rem, 15vw, 12rem); height: clamp(6rem, 15vw, 12rem); margin: calc((clamp(2rem, 4vw, 3rem) - 120px) / 2) auto; object-fit: cover; }
+
+    .profile-info { text-align: center; padding-top: calc(1.75rem + env(safe-area-inset-top)); }
+    
+    section.hero h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); margin-bottom: 0.25rem; }
+    
+    section.hero .subtitle { color: var(--text-secondary); opacity: 0.9; }
+
+    /* Buttons */
+    .btn-hero {
+      padding: calc(1rem - env(safe-area-inset-top)) calc(1.5rem - env(safe-area-inset-left));
+      font-size: clamp(0.875rem, 1.2vw);
+      [data-theme='dark'] & { box-shadow: var(--shadow-lg); }
+    }
+
+    .btn-primary-hero {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: white;
+      border: none;
+      box-shadow: 0 8px 32px rgba(91, 33, 182, 0.4);
+    }
+
+    .btn-secondary-hero { background: transparent; border-color: var(--border-light); color: var(--text-primary); border-width: 2px; }
+
+    /* Main Content */
+    .main-content-container { padding: calc(3rem + env(safe-area-inset-top)) 0; display: grid; gap: calc(2.5rem + env(safe-area-inset-top)); max-width: 1400px; margin: 0 auto; }
+
+    /* Work Cards Grid */
+    section.work { padding: calc(2rem - env(safe-area-inset-top)) 0; }
+    
+    .project-grid { display: grid; gap: calc(1.5rem + env(safe-area-inset-top)); grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); max-width: 960px; margin: 0 auto; }
+
+    /* Project Card */
+    .project-card {
+      background: color-mix(in srgb, var(--bg-secondary), transparent 5%);
+      border: 1px solid var(--border-light);
+      border-radius: calc(1rem - env(safe-area-inset-top));
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .project-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--accent-primary), transparent 90%); }
+
+    .project-img { width: 100%; height: 200px; object-fit: cover; border-radius: calc(1rem - env(safe-area-inset-top)); margin-bottom: 1.5rem; aspect-ratio: 4/3; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); opacity: 0.9; }
+
+    .project-content { padding: calc(1.25rem - env(safe-area-inset-top)); }
+
+    section.work h4 {
+      color: var(--text-primary);
+      font-size: clamp(1.25rem, 1.5vw, 1.375rem);
+      margin-bottom: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    section.work h4 .badge-status { font-size: 0.625em; padding: 0.125em 0.5em; border-radius: 999px; background: color-mix(in srgb, var(--accent-success), transparent 70%); }
+
+    section.work p { font-size: 0.9375rem; line-height: 1.6; color: var(--text-secondary); margin-top: 0.5rem; }
+
+    /* Stats Section */
+    .stats-section-container { text-align: center; background: color-mix(in srgb, var(--bg-secondary), transparent 2%); border: 1px solid var(--border-light); border-radius: calc(1rem - env(safe-area-inset-top)); padding: clamp(clamp(2rem, 4vw, 3rem) + 1.5rem, 2rem, 0); margin: calc(clamp(2rem, 4vw, 3rem) - (env(safe-area-inset-bottom) + env(safe-area-inset-top))) auto; max-width: clamp(720px, 80vw, 960px); }
+
+    section.stats .section-title { margin-bottom: calc(clamp(1.5rem, 3vw, 2rem) + (env(safe-area-inset-top) - env(safe-area-inset-bottom))); }
+    
+    section.stats h2 { font-size: clamp(2rem, 4vw, 2.5rem); background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* Statistics */
+    .stats-grid { display: grid; gap: calc(0.75rem + env(safe-area-inset-top)); grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); list-style: none; margin-bottom: 0; }
+
+    .stat-item h3 { font-size: clamp(2rem, 3vw, 2.5rem); line-height: 1; [data-theme='light'] & { color: var(--accent-primary); } }
+    
+    section.stats .stat-item p { margin-bottom: 0; opacity: 0.7; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.4; text-align: center; }
+
+    /* Contact */
+    .contact-section-container { padding: calc(3rem - env(safe-area-inset-top)) 0; text-align: center; max-width: clamp(640px, 80vw); margin: 0 auto; }
+
+    section.contact p.lead { font-size: 1.125rem; line-height: 1.7; opacity: var(--text-secondary-opacity); margin-bottom: calc(1.5rem + env(safe-area-inset-top)); }
+
+    /* CTA */
+    .call-to-action { text-align: center; padding-bottom: clamp(3rem, 5vw); max-width: 680px; margin: clamp(2rem, 4vw) auto 0; line-height: 1.7; opacity: var(--text-secondary-opacity); }
+
+    .cta-card-btn {
+      background: color-mix(in srgb, var(--accent-primary), transparent 30%);
+      color: white;
+      border-radius: calc(99px - env(safe-area-inset-top));
+      padding: calc(1rem - env(safe-area-inset-top)) calc(2rem - env(safe-area-inset-left));
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+    }
+
+    /* Footer */
+    .footer { 
+      background: color-mix(in srgb, var(--bg-secondary), transparent 2%);
+      padding: calc(3rem - env(safe-area-inset-top)) 0;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .footer-section-container { padding: 1.5rem; max-width: clamp(640px, 80vw); margin: 0 auto; }
+
+    section.footer p { font-size: calc(0.9rem - env(safe-area-inset-top)); opacity: var(--text-secondary-opacity); line-height: 1.6; margin-bottom: 0.5rem; }
+
+    .footer-social-links { display: flex; gap: calc(2rem - env(safe-area-inset-left)); justify-content: center; align-items: center; list-style: none; font-size: calc(0.9rem - env(safe-area-inset-top)); margin-bottom: 1rem; opacity: var(--text-secondary-opacity); }
+    
+    .footer-social-links a:hover, .footer-social-links a:focus { opacity: 1; color: var(--accent-primary); }
+
+    /* Utility Classes */
+    .d-none { display: none; }
+    .d-lg-block { display: block; }
+    .text-muted { opacity: 0.6; }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section.hero > * { animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+    /* Responsive Queries */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Focus Outline */
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { 
+      outline: 2px solid var(--accent-primary); outline-offset: 2px; 
+    }
+
+    /* Theme Switcher - Dark Mode Toggle */
+    .theme-toggle-container { display: inline-flex; align-items: center; }
+    
+    body[data-theme='dark'] .theme-switch-btn, a[href='#']:not([x-no-theme]) ~ p.theme-switch-btn { color: var(--accent-secondary); cursor: pointer; position: relative; padding: 4px calc(0.5rem - env(safe-area-inset-left)); display: inline; }
+    
+    body[data-theme='dark'] .theme-switch-toggle, a[href='#']:not([x-no-theme]) ~ p.theme-switch-btn .theme-switch-toggle { color: white; font-size: 1.25em; line-height: inherit; background: var(--accent-success); width: 40px; height: 28px; border-radius: 99rem; display: inline-block; margin-left: calc(4px - env(safe-area-inset-left)); text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    body[data-theme='dark'] .theme-switch-toggle:before { content: '☀️'; position: absolute; text-indent: calc(1em - env(safe-area-inset-left)); left: 4px; line-height: inherit; font-size: inherit; width: 40px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(5px); }
+    
+    a:not(:disabled) [data-active='true'] ~ .theme-switch-toggle { color: white !important; }
+    body[data-theme='light'] .theme-switch-toggle, a[href='#']:not([x-no-theme]) ~ p.theme-switch-btn ~ .theme-switch-toggle { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); color: var(--text-primary); font-size: 1.25em; line-height: inherit; display: inline-block; width: 40px; height: 28px; }
+    a:not(:disabled) [data-active='true'] ~ .theme-switch-toggle:before { content: '🌙'; border: none; position: absolute; text-indent: calc(1em - env(safe-area-inset-left)); left: 4px; line-height: inherit; font-size: inherit; width: 40px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(-5px); }
+    
+    body[data-theme='dark'] ~ .theme-switch-btn.theme-true .theme-switch-toggle { background: #f73b48; color: white; text-align: center; font-size: initial; width: 30px; height: 28px; margin-left: 2px; }
+    body[data-theme='dark'] ~ .theme-switch-btn.theme-true .theme-switch-toggle:before { content: '☀️'; position: absolute; text-indent: calc(1em - 5px); left: 0px; line-height: inherit; font-size: inherit; width: 30px; }
+
+    /* Modern Grid */
+    .modern-grid-wrapper { display: grid; gap: 2rem; max-width: 1400px; margin: 0 auto; padding: calc(clamp(3rem, 5vw, 4rem) - env(safe-area-inset-top)) 0; }
+    
+    .tech-badge { font-size: 0.75em; padding: 0.25em 0.625em; margin-left: 0.25em; background: rgba(91, 33, 182, 0.1); color: var(--accent-primary); border-radius: 99px; }
+    .tech-badge:hover { background: rgba(91, 33, 182, 0.15); }
+
+  </style>
+</head>
+
+<body data-theme='light'>
+
+  <!-- Navbar -->
+  <nav class="navbar-custom">
+    <div class="container d-flex justify-content-center gap-2">
+      <a href="#" class="navbar-brand">Cameron Pittman</a>
+      
+      <!-- Nav Links Mobile -->
+      <ul class="navbar-nav d-lg-none nav-links">
+        <li><a href="#about" style="padding: 0.5rem; font-size: 0.9375rem;"><i class="bi bi-person-fill"></i></a></li>
+        <li><a href="#work" style="padding: 0.5rem; font-size: 0.9375rem;"><i class="bi bi-briefcase-fill"></i></a></li>
+        <li><a href="#contact" style="padding: 0.5rem; font-size: 0.9375rem;"><i class="bi bi-envelope-fill"></i></a></li>
+      </ul>
+
+      <!-- Theme Switcher -->
+      <p class="theme-switch-btn d-none" x-no-theme><span style="color: var(--accent-secondary)">?</span> Theme</p>
+      
+      <div x-for="{ theme, setTheme } in themes()"><button data-active={ active, true }, onclick={ setTheme(theme ) } class="theme-switch-toggle" aria-label="Toggle dark mode">🌙 ☀️</button></div>
+
     </div>
-    <script>
-      (function(w,g){w['GoogleAnalyticsObject']=g;w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');ga('create', 'UA-XXXX-Y');ga('send', 'pageview');
-    </script>
-    <script src="http://www.google-analytics.com/analytics.js" async></script>
-  </body>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="about" class="hero text-center">
+    <div style="background: color-mix(in srgb, transparent, var(--bg-secondary) 1%); max-width: clamp(480px, 65vw, 640px); margin: calc(clamp(2rem - env(safe-area-inset-top)) - 10px) auto; padding: clamp(2rem - env(safe-area-inset-top)) calc(calc(clamp(2rem - 3em) + 3em) / 2); border-left: 4px; border-image-source: var(--accent-primary); border-right: 4px transparent; color: var(--text-secondary);">
+      <div style="display: flex; align-items: center; gap: calc(1rem - env(safe-area-inset-top)); padding-left: clamp(clamp(2rem, 4vw, 3rem) - (calc(calc(clamp(2rem - 3em) + 3em) / 2)))">
+        <i class="bi bi-info-circle-fill" style="color: var(--accent-primary); font-size: 1.75em;"></i>
+        <p>This is the homepage of Cameron Pitman's portfolio which he uses to showcase some of his work and projects.</p>
+      </div>
+    </div>
+
+    <h1 class="display-1">Course Developer</h1>
+    
+    <p>Creating high-quality educational content for modern web development, performance engineering, and interactive experiences.</p>
+
+    <!-- Contact Button -->
+    <div class="d-flex justify-content-center gap-2"><a onclick="location.href='mailto:me@pitman.com'" class="btn btn-primary-hero" x-for="{ value } in themes()[2]">{ text }</a></div>
+
+  </section>
+
+  <!-- Work Section -->
+  <section id="work" style="margin-top: calc(4rem - env(safe-area-inset-top));">
+    <h2 class="display-3 text-center mb-3">Featured Projects</h2>
+    
+    <div class="text-center text-muted opacity-75">Selected experiences from the past 3 years</div>
+
+    <!-- Project Grid -->
+    <div class="project-grid">
+      
+      <!-- Cam's Pizzeria -->
+      <article id="pizzap" class="project-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png" alt="Cam's Pizzeria Screenshot" class="project-img">
+        <div class="project-content">
+          <h4><span class="badge-status">WebAssembly</span> Cam's Pizzeria</h4>
+          <p>An interactive pizza ordering site that runs blazing-fast logic in WebAssembly. C functions compiled via Emscripten handle randomization, parallax effects, and dynamic DOM updates — zero JavaScript jank.</p>
+        </div>
+      </article>
+
+      <!-- Build Your Own 2048 -->
+      <article id="2048game" class="project-card">
+        <img src="https://lh4.ggpht.com/kJEnfqhPvtm4m3EneSZ4fWYGS8lW4YNhEjk6zPkyrQaBUHc-2Y_ElDic99NHI0h-UBLXVbRCjFybFvrWxdk=s100" alt="2048 Game Screenshot" class="project-img">
+        <div class="project-content">
+          <h4><span class="badge-status">JavaScript</span> Build Your Own 2048</h4>
+          <p>A fully responsive tile-matching puzzle game built from scratch. Supports keyboard navigation, mouse touch events, and adaptive layout across mobile devices.</p>
+        </div>
+      </article>
+
+      <!-- Performance Optimization -->
+      <article id="weboptimization" class="project-card">
+        <img src="https://lh6.ggpht.com/f_0W8h__3G99CWTjnMjD8BUKm7yp2-wJyApLtTwFoFtlal2ULf_JgHIsOQq2NiYfKOdMlXlMHDKNo5XVZLs=s100" alt="Performance Optimization Screenshot" class="project-img">
+        <div class="project-content">
+          <h4><span class="badge-status">Core Web Vitals</span> Performance Optimization</h4>
+          <p>A comprehensive guide to Lighthouse metrics, server push, progressive lazy loading, and critical CSS inlining for 95+ scores.</p>
+        </div>
+      </article>
+
+      <!-- Mobile Development -->
+      <article id="mobile" class="project-card">
+        <img src="https://lh5.ggpht.com/IKdCmTWn8a2nMhlwMYzryvzRN5CUZAOBr4tDrEAbszV7TIFe9pRAInA4kkYcgTXwrifJsBEsq1agTueuu-g=s100" alt="Mobile Development Screenshot" class="project-img">
+        <div class="project-content">
+          <h4><span class="badge-status">Progressive Web Apps</span> Mobile Web Development</h4>
+          <p>Tips for responsive design, touch-friendly interactions, service workers, and PWAs that work offline. The modern guide to mobile-first web.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section style="padding: calc(3rem - env(safe-area-inset-top)) 0;" id="technologies">
+    <h2 class="display-5 text-center mb-3">Tech Stack</h2>
+    
+    <div class="tech-stack-grid modern-grid-wrapper">
+      <ul style="text-align: center;">
+        <a href="https://html.spec.whatwg.org" target="_blank rel="noopener noreferrer"><i class="bi bi-code-slash"></i></a>
+        <li><ul style="list-style: none; text-align: center;">
+          <span>H</span>
+          <span>T</span>
+          <span>M</span>
+          <span>L</span>
+        </ul></a>
+
+        <a href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2" target="_blank rel="noopener noreferrer">CSS</a>
+      </ul>
+
+      <div style="display: grid; gap: 0.75rem; list-style: none; text-align: center;">
+        <span><a href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" target="_blank rel="noopener noreferrer"><i class="bi bi-fonts"></i>Typography</a></span>
+        <span><a href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" target="_blank rel="noopener noreferrer"><i class="bi bi-grid-fill"></i>Icons Library</a></span>
+        <span><a href="https://www.wasm.org" target="_blank rel="noopener noreferrer"><i class="bi bi-dock-top"></i>WebAssembly</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" style="padding-bottom: clamp(3rem + env(safe-area-inset-bottom), 5vw);" x-for="{ name, email } in contactInfo()">
+    <h2 class="display-4 text-center">Get In Touch</h2>
+
+    <div class="text-center text-muted opacity-75 mb-3">Interested in working together?</div>
+    
+    <p style="color: var(--accent-primary); font-size: calc(0.8rem - env(safe-area-inset-bottom));">
+      I'm always interested in discussing new opportunities and educational projects, so feel free to reach out.
+    </p>
+
+    <a onclick="location.href='mailto:me@pitman.com'" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; padding: calc(1rem - env(safe-area-inset-top)) calc(1.5rem - env(safe-area-inset-left)); background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: white; text-decoration: none; border-radius: 999px; font-size: 0.9375rem; margin-top: calc(1.25rem - env(safe-area-inset-top));">
+      <i class="bi bi-envelope-fill"></i>
+      me@pitman.com
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-section-container text-center">
+      <h3 style="font-size: clamp(1.5rem, 2vw, 1.75rem); margin-bottom: calc(0.5rem + env(safe-area-inset-top));">Cameron Pitman</h3>
+      
+      <p>Course Developer specializing in modern web technologies and performance engineering.</p>
+
+      <!-- Social Links -->
+      <div style="display: flex; gap: calc(2rem - env(safe-area-inset-left)); justify-content: center; margin-bottom: 1.5rem;">
+        <a href="#" class="text-muted" style="font-size: 1.5em;"><i class="bi bi-github"></i></a>
+        <a href="#" class="text-muted" style="font-size: 1.5em;"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" class="text-muted" style="font-size: 1.5em;"><i class="bi bi-linkedin"></i></a>
+      </div>
+
+      <!-- Copyright -->
+      <p style="font-size: clamp(0.875rem, 1vw, 0.9375rem); opacity: 0.6; margin-top: calc(0.75rem + env(safe-area-inset-top));">© 2026 Cameron Pittman</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize theme toggle functionality
+    window.addEventListener('load', () => {
+      const htmlElement = document.documentElement;
+      
+      // Check for saved user preference or system preference
+      if (localStorage.theme || matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) {
+        htmlElement.setAttribute('data-theme', 'dark');
+      } else {
+        htmlElement.setAttribute('data-theme', 'light');
+      }
+    });
+
+    // Smooth scroll to sections
+    document.querySelectorAll('[x-pjax]').forEach((link, index, self) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').slice(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Focus management for accessibility
+    document.querySelector('.navbar-custom a:first-child').setAttribute('aria-modal', 'false');
+  </script>
+</body>
 </html>
