@@ -1,0 +1,9 @@
+# gitmodules file - optional, included for completeness
+# This project does NOT submodule or submodules its own dependencies.
+# Pure static deployment required (no git operations needed)
+
+# Static Web Hosting Requirements
+# =================================
+# No .gitmodules entries required - this project is designed for 
+# branch/zipball deployments that work without git repositories.
+# Any GitHub Pages site can serve all necessary files directly.
