@@ -1,0 +1,60 @@
+# Name: Pages Deployment
+name: Deploy to GitHub Pages
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - gh-pages-docs  # Source branch for deployment
+    paths-ignore:
+      - 'docs/**'        # Ignore docs/ directory changes
+      - 'MARKUPUSH_STATUS.md'
+      - '.gitignore'
+  workflow_dispatch:     # Manual trigger option
+
+# This job builds the static site and deploys to GitHub Pages
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Checkout repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      # Step 2: Setup Node.js for any build process (optional, if needed)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'     # Use Node v18+
+          cache: 'npm'            # Cache npm dependencies
+      
+      # Step 3: Install dependencies (if package.json exists)
+      - name: Install Dependencies
+        run: |
+          echo "Checking for build dependencies..."
+          if [ -f "package.json" ] && ! grep -q '"files"' package.json; then
+            npm install --production || true
+          fi
+          
+      # Step 4: Build/compile static assets (if needed)
+      - name: Prepare Build Files
+        run: |
+          echo "Preparing files for GitHub Pages deployment..."
+          
+          # Minimize CSS if not already done
+          if [ -f "css/style.css" ] && [ ! -f "css/style.min.css" ]; then
+            cp css/style.css css/style.min.css 2>/dev/null || true
+          fi
+          
+        shell: bash
+      
+      # Step 5: Deploy via GitHub Pages Actions
+      - name: Deploy with GitHub Pages Action
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ github.token }}
+          publish_dir: '.'           # Use root of repo as publish directory
+          user_name: 'Github Pages Deployment Bot'
+          user_email: 'deployment@github.com'          
+          keep_files: true          # Preserve files from previous builds
