@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍕 Cam's Pizzeria | WASM Edition</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-parallax" id="bg-parallax"></div>
+
+    <main class="container">
+        <header class="hero">
+            <h1 class="title">Cam's <span class="highlight">Pizzeria</span></h1>
+            <p class="subtitle">High-Performance Pizza Generation powered by <span class="wasm-badge">WebAssembly</span></p>
+        </header>
+
+        <section class="generator-card">
+            <div class="card-header">
+                <h2>Create Your Masterpiece</h2>
+                <p>Click the button to generate a random, high-performance pizza.</p>
+            </div>
+            
+            <div class="result-area">
+                <div id="pizza-name" class="pizza-name">Click Generate!</div>
+                <div id="pizza-ingredients" class="pizza-ingredients">Your ingredients will appear here...</div>
+            </div>
+
+            <button id="generate-btn" class="btn-primary">🍕 Generate Pizza</button>
+        </section>
+
+        <footer class="info-footer">
+            <p>Logic calculated in <strong>C</strong> $\rightarrow$ Compiled to <strong>WASM</strong></p>
+            <div class="stats-grid">
+                <div class="stat-item"><strong>Speed:</strong> Ultra-Fast</div>
+                <div class="stat-item"><strong>Safety:</strong> Typed</div>
+                <div class="stat-item"><strong>Logic:</strong> Native C</div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- WASM Glue Code -->
+    <script src="pizza.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
