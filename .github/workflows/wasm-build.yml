@@ -1,0 +1,33 @@
+name: Build WASM Logic
+
+on:
+  push:
+    branches: [ feat-web-optimization-wasm, main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Emscripten
+        uses: mymindstorm/setup-emscripten@v1
+
+      - name: Compile C to WASM
+        run: |
+          emcc src/pizza.c -o docs/pizza.js \
+          -s EXPORTED_FUNCTIONS='["_get_random_pizza_name", "_get_random_pizza_ingredients", "_calculate_parallax", "_malloc", "_free"]' \
+          -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "UTF8ToString"]' \
+          -s MODULARIZE=1 \
+          -s EXPORT_NAME="Module" \
+          -O3
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/github-action-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
